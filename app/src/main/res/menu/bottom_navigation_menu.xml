@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_android"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Accueil"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_logo"
+        android:enabled="true"
+        android:icon="@drawable/ic_whitetent"
+        android:title="Réservations"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_landscape"
+        android:enabled="true"
+        android:icon="@drawable/ic_whitebelle"
+        android:title="Notifications"
+        app:showAsAction="ifRoom" />
+</menu>
