@@ -19,7 +19,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_baseline_supervised_user_circle_24_white"
+            android:src="@drawable/ic_logo"
             app:civ_border_color="@color/white"
             app:civ_border_width="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.24"
             tools:ignore="ContentDescription"
-            tools:srcCompat="@drawable/ic_baseline_supervised_user_circle_24" />
+            tools:srcCompat="@drawable/ic_logo" />
 
         <TextView
             android:id="@+id/textView7"

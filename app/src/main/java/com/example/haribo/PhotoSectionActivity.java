@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,11 +44,12 @@ public class PhotoSectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_section);
+        SharedPreferences prefs = getApplicationContext (). getSharedPreferences ("MyPrefs", MODE_PRIVATE);
+        int idUser = prefs.getInt ("idUser", 0);
         ApiInterface service = ApiClient.getRetrofitInstance().create(ApiInterface.class);
         recyclerView = findViewById(R.id.recyclerCommentaire);
         Bundle b = getIntent().getExtras();
         int idHabitat = b.getInt("habitat");
-        int idUser = b.getInt("idUser");
         Call<List<PriseDeVue>> callComment = service.getPhoto(idHabitat);
         Habitat habitat = new Habitat(idHabitat);
 

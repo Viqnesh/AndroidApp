@@ -6,17 +6,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -27,6 +39,7 @@ import retrofit2.Response;
 public class DashboardActivity extends AppCompatActivity {
     TextView NotifLink ;
     TextView ReserLink ;
+    ImageView profilPic ;
     private NotifAdapter adapter;
     private RecyclerView recyclerView;
     private ReservationAdapter adapter2;
@@ -36,16 +49,22 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Bundle b = getIntent().getExtras();
-        int value = 4; // or other values
-        //if(b != null)
-            //value = b.getInt("key");
-            //Log.i("Parameter" ,"User Id" + value);
+        SharedPreferences prefs = getApplicationContext (). getSharedPreferences ("MyPrefs", MODE_PRIVATE);
+        int idUser = prefs.getInt ("idUser", 0);
+        String profileImg = prefs.getString("Picture" , "dfd");
+        Log.i("Shared" , "Test" + idUser);
         NotifLink =  findViewById(R.id.textView17);
         ReserLink = findViewById(R.id.textView6);
+        profilPic = findViewById(R.id.imageView2);
+        InputStream stream = new ByteArrayInputStream(profileImg.getBytes(StandardCharsets.UTF_8));
+        Bitmap bitmap = BitmapFactory.decodeStream(stream);
+        Drawable d = new BitmapDrawable(getResources(), bitmap);
+        profilPic.setImageBitmap(bitmap);
+        profilPic.setImageDrawable(d);
         recyclerView = findViewById(R.id.recylerNotif);
         recyclerView2 = findViewById(R.id.recylerReser);
         ApiInterface service = ApiClient.getRetrofitInstance().create(ApiInterface.class);
-        Call<List<Notification>> call = service.getMaxNotif(value);
+        Call<List<Notification>> call = service.getMaxNotif(idUser);
         call.enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response <List<Notification>> response) {
@@ -63,7 +82,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
-        Call<List<Reservation>> call2 = service.getReservations(value);
+        Call<List<Reservation>> call2 = service.getReservations(3);
         call2.enqueue(new Callback<List<Reservation>>() {
             @Override
             public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {

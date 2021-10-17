@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -31,11 +32,10 @@ public class ReservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.activity_main_bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        int value = 4; // or other values
-
-        //Log.i("Parameter" ,"User Id" + value);
+        SharedPreferences prefs = getApplicationContext (). getSharedPreferences ("MyPrefs", MODE_PRIVATE);
+        int idUser = prefs.getInt ("idUser", 0);
         ApiInterface service = ApiClient.getRetrofitInstance().create(ApiInterface.class);
-        Call<List<Reservation>> call = service.getReservations(value);
+        Call<List<Reservation>> call = service.getReservations(3);
         call.enqueue(new Callback<List<Reservation>>() {
             @Override
             public void onResponse(Call<List<Reservation>> call, Response<List<Reservation>> response) {

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -37,10 +38,10 @@ public class CommenSectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commen_section);
         ApiInterface service = ApiClient.getRetrofitInstance().create(ApiInterface.class);
-
+        SharedPreferences prefs = getApplicationContext (). getSharedPreferences ("MyPrefs", MODE_PRIVATE);
+        int idUser = prefs.getInt ("idUser", 0);
         Bundle b = getIntent().getExtras();
         int idHabitat = b.getInt("habitat");
-        int idUser = b.getInt("idUser");
         User user = new User(idUser);
         Habitat habitat = new Habitat(idHabitat);
         recyclerView = findViewById(R.id.recyclerCommentaire);

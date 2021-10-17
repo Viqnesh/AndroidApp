@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -30,10 +31,11 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
-        int value = 4 ;
+        SharedPreferences prefs = getApplicationContext (). getSharedPreferences ("MyPrefs", MODE_PRIVATE);
+        int idUser = prefs.getInt ("idUser", 0);
         PreviousArrow = findViewById(R.id.imageView11);
         ApiInterface service = ApiClient.getRetrofitInstance().create(ApiInterface.class);
-        Call<List<Notification>> call = service.getNotif(value);
+        Call<List<Notification>> call = service.getNotif(idUser);
         call.enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response <List<Notification>> response) {

@@ -74,7 +74,8 @@ public class HabitatActivity extends AppCompatActivity {
         Call<List<Equipement>> callEquip = service.getEquipement();
         Call<List<Commentaire>> callComment = service.getCommentaire(value);
         Call<List<PriseDeVue>> callPhoto = service.getPhoto(value);
-        call.enqueue(new Callback<List<Habitat>>() {
+         int finalValue = value;
+         call.enqueue(new Callback<List<Habitat>>() {
             @Override
             public void onResponse(Call<List<Habitat>> call, Response<List<Habitat>> response) {
                 Log.i("Retrofit" , "Réussi" + response.body().get(0).getUrl());
@@ -86,8 +87,7 @@ public class HabitatActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Bundle b = new Bundle();
                         Intent intent = new Intent(getApplicationContext(), CommenSectionActivity.class);
-                        b.putInt("habitat", finalValue); //Your id
-                        b.putInt("idUser", finalIdUser); //Your id
+                        b.putInt("habitat", finalValue); //IdHabitat
                         intent.putExtras(b); //Put your id to your next Intent
                         startActivity(intent);
                         finish();
@@ -130,7 +130,7 @@ public class HabitatActivity extends AppCompatActivity {
                     public void onResponse(Call<List<PriseDeVue>> callPhoto, Response<List<PriseDeVue>> response) {
                         Log.i("Retrofit" , "Réussi Photo" + response.body());
                         adapter3 = new PriseDeVueAdapter(getApplicationContext(), response.body());
-                        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(HabitatActivity.this);
+                        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(HabitatActivity.this, LinearLayoutManager.HORIZONTAL, false);
                         recyclerView3.setLayoutManager(layoutManager3);
                         recyclerView3.setAdapter(adapter3);
                     }
@@ -166,8 +166,7 @@ public class HabitatActivity extends AppCompatActivity {
              public void onClick(View view) {
                  Bundle b = new Bundle();
                  Intent intent = new Intent(getApplicationContext(), PhotoSectionActivity.class);
-                 b.putInt("habitat", finalValue); //Your id
-                 b.putInt("idUser" , finalIdUser);
+                 b.putInt("habitat", finalValue); //IdHabitat
                  intent.putExtras(b); //Put your id to your next Intent
                  startActivity(intent);
                  finish();

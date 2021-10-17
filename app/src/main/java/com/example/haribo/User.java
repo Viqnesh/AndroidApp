@@ -14,6 +14,8 @@ public class User {
     private String prenom;
     @SerializedName("password")
     private String password;
+    @SerializedName("url")
+    private String url;
 
     public User(Integer id, String email, String nom, String prenom) {
         this.id = id;
@@ -69,5 +71,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

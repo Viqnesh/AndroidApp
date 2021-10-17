@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     Button login;
     EditText pseudo ;
     EditText password;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public SharedPreferences sharedpreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         login = (Button) findViewById(R.id.login);
         pseudo = findViewById(R.id.editTextTextPersonName);
         password = findViewById(R.id.editTextTextPassword);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
                             Log.i("Retrofit" , "Réussi" + response.body());
                             Log.i("Retrofit" , "Réussi" + response.body().getId());
                             Log.i("Retrofit" , "Réussi" + response.body().getEmail());
-                            Log.i("Retrofit" , "Réussi" + response.body().getNom());
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putInt("idUser", response.body().getId());
+                            editor.putString("Picture", response.body().getUrl());
+                            editor.commit();
                             Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-                            Bundle b = new Bundle();
-                            b.putInt("key", response.body().getId()); //Your id
-                            intent.putExtras(b); //Put your id to your next Intent
                             startActivity(intent);
                             finish();
                         }
